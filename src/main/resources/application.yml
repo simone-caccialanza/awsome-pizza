@@ -22,5 +22,6 @@ spring:
 logging:
   level:
     com.simocaccia.awsomepizza: DEBUG
-    org:
-      springframework: INFO
+  headers:
+    enabled: false
+    list: content-type, user-agent, accept, host

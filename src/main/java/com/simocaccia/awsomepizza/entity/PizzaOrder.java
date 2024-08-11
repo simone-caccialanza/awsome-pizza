@@ -14,9 +14,10 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @Table(name = "pizza_order")
+@SequenceGenerator(name = "pizza_order_seq", sequenceName = "pizza_order_seq", allocationSize = 1)
 public class PizzaOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pizza_order_seq")
     @Column(name = "id", nullable = false)
     private Long orderId;
 

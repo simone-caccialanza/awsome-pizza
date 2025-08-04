@@ -2,6 +2,7 @@ package com.simocaccia.awsomepizza.controller;
 
 import com.simocaccia.awsomepizza.command.PizzaOrderCommand;
 import com.simocaccia.awsomepizza.command.PizzaOrderCompleteCommand;
+import com.simocaccia.awsomepizza.command.PizzaOrderGetAllCommand;
 import com.simocaccia.awsomepizza.command.PizzaOrderStatusCommand;
 import com.simocaccia.awsomepizza.entity.PizzaOrderStatus;
 import com.simocaccia.awsomepizza.request.PizzaOrderRequest;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
@@ -27,11 +30,25 @@ public class PizzaController {
 
     private final PizzaOrderCompleteCommand pizzaOrderCompleteCommand;
 
+    private final PizzaOrderGetAllCommand pizzaOrderGetAllCommand;
+
     @Autowired
-    public PizzaController(PizzaOrderCommand pizzaOrderCommand, PizzaOrderStatusCommand pizzaOrderStatusCommand, PizzaOrderCompleteCommand pizzaOrderCompleteCommand) {
+    public PizzaController(PizzaOrderCommand pizzaOrderCommand, PizzaOrderStatusCommand pizzaOrderStatusCommand, PizzaOrderCompleteCommand pizzaOrderCompleteCommand, PizzaOrderGetAllCommand pizzaOrderGetAllCommand) {
         this.pizzaOrderCommand = pizzaOrderCommand;
         this.pizzaOrderStatusCommand = pizzaOrderStatusCommand;
         this.pizzaOrderCompleteCommand = pizzaOrderCompleteCommand;
+        this.pizzaOrderGetAllCommand = pizzaOrderGetAllCommand;
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<PizzaOrderResponse>> order(
+    ) {
+        log.info("Received request to get all orders");
+        var orders = pizzaOrderGetAllCommand.run();
+        return ResponseEntity.ok(orders.stream().map(order -> PizzaOrderResponse.builder()
+                .orderId(order.getOrderId())
+                .orderList(order.getItems())
+                .build()).toList());
     }
 
 

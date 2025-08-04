@@ -29,6 +29,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.hibernate:hibernate-validator:8.0.1.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 
 	runtimeOnly 'com.h2database:h2'
 

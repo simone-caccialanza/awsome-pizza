@@ -1,0 +1,25 @@
+type Query {
+    orders: [PizzaOrderResponse]
+    orderStatus(orderId: ID!): PizzaOrderStatusReponse
+}
+
+type PizzaOrderResponse {
+    orderId: ID
+    orderList: [String]
+}
+
+type PizzaOrderStatusReponse {
+    status: String
+}
+
+input PizzaOrderRequest {
+    pizzaList: [PizzaName]!
+}
+
+enum PizzaName {
+    MARGHERITA, ORTOLANA, PROSCIUTTO
+}
+
+type Mutation {
+    addOrder(order: PizzaOrderRequest!): PizzaOrderResponse
+}
